@@ -33,8 +33,6 @@ server.log
 Thumbs.db
 
 # Replit
-.replit
 .upm/
-replit.nix
 .cache/
 .config/

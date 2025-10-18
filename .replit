@@ -1,0 +1,15 @@
+run = "python main.py"
+language = "python3"
+entrypoint = "main.py"
+
+[nix]
+channel = "stable-23_11"
+
+[deployment]
+run = ["python", "main.py"]
+deploymentTarget = "cloudrun"
+
+[env]
+PYTHONUNBUFFERED = "1"
+REPLIT = "true"
+SUPPRESS_SELENIUM_WARNINGS = "true"

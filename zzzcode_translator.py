@@ -193,6 +193,7 @@ def translate_code_zzzcode(code: str, from_lang: str, to_lang: str) -> str:
     driver = None
     try:
         print("🔧 Configurando ChromeDriver...")
+        print("Código original:" + code)
 
         # En Replit, usar el ChromeDriver ya instalado en lugar de webdriver-manager
         if os.environ.get('REPLIT'):
@@ -417,6 +418,7 @@ def translate_code_zzzcode(code: str, from_lang: str, to_lang: str) -> str:
             raise Exception("El código traducido está vacío o no se pudo encontrar después de múltiples intentos")
 
         # Limpiar comentarios generados automáticamente
+        print("Código traducido sin limpiar:" + translated_code)
         lines = translated_code.split('\n')
         cleaned_lines = []
         skip_comments = True

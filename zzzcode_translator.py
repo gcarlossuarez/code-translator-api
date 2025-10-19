@@ -194,13 +194,20 @@ def translate_code_zzzcode(code: str, from_lang: str, to_lang: str) -> str:
     try:
         print("🔧 Configurando ChromeDriver...")
 
-        # Usar webdriver-manager para manejar ChromeDriver automáticamente
+        # En Replit, usar el ChromeDriver ya instalado en lugar de webdriver-manager
         if os.environ.get('REPLIT'):
-            service = Service(
-                ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
-            )
-            print("✅ Usando Chromium para Replit")
+            chromedriver_path = os.environ.get('CHROMEDRIVER_PATH')
+            if chromedriver_path and os.path.exists(chromedriver_path):
+                print(f"✅ Usando ChromeDriver de Replit: {chromedriver_path}")
+                service = Service(executable_path=chromedriver_path)
+            else:
+                # Fallback a webdriver-manager
+                print("⚠️ ChromeDriver de Replit no encontrado, usando webdriver-manager...")
+                service = Service(
+                    ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
+                )
         else:
+            # En local, usar webdriver-manager
             service = Service(ChromeDriverManager().install())
             print("✅ Usando Chrome estándar")
 

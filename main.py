@@ -17,6 +17,20 @@ print("=" * 60)
 print("🚀 Iniciando Code Translator API en Replit")
 print("=" * 60)
 
+# INSTALAR DEPENDENCIAS AUTOMÁTICAMENTE
+print("📦 Verificando dependencias...")
+try:
+    import flask
+    print("✅ Flask disponible")
+except ImportError:
+    print("📥 Instalando dependencias...")
+    subprocess.run([
+        sys.executable, '-m', 'pip', 'install', '--user', '--quiet',
+        'flask', 'flask-cors', 'waitress', 'selenium',
+        'webdriver-manager', 'requests', 'python-dotenv'
+    ])
+    print("✅ Dependencias instaladas")
+
 # Buscar Chromium y ChromeDriver automáticamente
 print("🔍 Buscando Chromium y ChromeDriver...")
 

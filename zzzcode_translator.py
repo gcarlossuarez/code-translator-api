@@ -37,8 +37,11 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.core.os_manager import ChromeType
 import time
 
 # Suprimir warnings de urllib3 para Selenium
@@ -185,16 +188,25 @@ def clean_translated_code(translated_code: str, original_code: str, target_lang:
 
 def translate_code_zzzcode(code: str, from_lang: str, to_lang: str) -> str:
     """Traduce código usando zzzcode.ai a través de Selenium."""
-    options = Options()
-    options.add_argument("--headless")  # Ejecutar en modo headless (sin interfaz gráfica)
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--window-size=1920,1080") # Asegurar un tamaño de ventana adecuado
-    options.add_argument("--disable-blink-features=AutomationControlled")  # Evitar detección de bot
+    options = get_chrome_options()
 
     driver = None
     try:
-        driver = webdriver.Chrome(options=options)
+        print("🔧 Configurando ChromeDriver...")
+
+        # Usar webdriver-manager para manejar ChromeDriver automáticamente
+        if os.environ.get('REPLIT'):
+            service = Service(
+                ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
+            )
+            print("✅ Usando Chromium para Replit")
+        else:
+            service = Service(ChromeDriverManager().install())
+            print("✅ Usando Chrome estándar")
+
+        driver = webdriver.Chrome(service=service, options=options)
+        print("✅ ChromeDriver iniciado correctamente")
+
         driver.get("https://zzzcode.ai/code-converter")
 
         # Esperar a que los elementos estén presentes y sean interactuables
